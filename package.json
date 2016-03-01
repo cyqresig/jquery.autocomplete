@@ -1,0 +1,23 @@
+{
+  "name": "jquery.autocomplete",
+  "version": "1.0.0",
+  "description": "基于jquery的自动补全插件，常用于推荐搜索",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyqresig/jquery.autocomplete.git"
+  },
+  "keywords": [
+    "jquery",
+    "autocomplete"
+  ],
+  "author": "HISAME SHIZUMARU",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cyqresig/jquery.autocomplete/issues"
+  },
+  "homepage": "https://github.com/cyqresig/jquery.autocomplete#readme"
+}
