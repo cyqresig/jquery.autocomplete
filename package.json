@@ -1,10 +1,31 @@
 {
   "name": "jquery.autocomplete",
   "version": "1.0.0",
-  "description": "基于jquery的自动补全插件，常用于推荐搜索",
+  "description": "基于jquery的自动补全插件，类似淘宝京东的搜索推荐",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "devDependencies": {
+    "connect-livereload": "^0.5.4",
+    "css-loader": "^0.23.1",
+    "ejs-loader": "^0.2.1",
+    "expose-loader": "^0.7.1",
+    "file-loader": "^0.8.5",
+    "gulp": "^3.9.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-serve": "^1.2.0",
+    "gulp-util": "^3.0.7",
+    "html-loader": "^0.4.3",
+    "require-dir": "^0.3.0",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.14",
+    "webpack-dev-middleware": "^1.5.1",
+    "webpack-dev-server": "^1.14.1"
   },
   "repository": {
     "type": "git",
