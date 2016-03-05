@@ -12,14 +12,14 @@ var event = {
 
 	onInput: function() {
 
-		var $input = this.options.$input;
+		var $input = this._options.$input;
 
 		$input.on('input', $.proxy(handler.onInputHandler, this));
 	},
 
 	onClick: function() {
 
-		var $input = this.options.$input;
+		var $input = this._options.$input;
 
 		$input.on('click', $.proxy(handler.onClickHandler, this));
 
@@ -27,21 +27,21 @@ var event = {
 
 	onFoucsIn: function() {
 
-		var $input = this.options.$input;
+		var $input = this._options.$input;
 
 		$input.on('foucsin', $.proxy(handler.onFoucsInHandler, this));
 	},
 
 	onFocusOut: function() {
 
-		var $input = this.options.$input;
+		var $input = this._options.$input;
 
 		$input.on('focusout', $.proxy(handler.onFocusOutHandler, this));
 	},
 
 	onKeyDown: function() {
 
-		var $input = this.options.$input;
+		var $input = this._options.$input;
 
 		$input.on('keydown', $.proxy(handler.onKeyDownHandler, this));
 	},

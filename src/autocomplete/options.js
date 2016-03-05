@@ -34,11 +34,17 @@ var options = {
 
 	onSearchMenuDisplayStateChange: $.noop,
 
+	onSetSearchMenuData: $.noop,
+
 	onSearch: $.noop,
 
 	onSelect: $.noop,
 
 	$searchInput: null,
+
+	template: $.noop,
+
+	onTemplate: $.noop,
 };
 
 module.exports = options;

@@ -8,7 +8,16 @@
 
 var attrs = {
 
-	searchMenuObject: {},
+	searchMenuData: {
+
+		//isShowHeader: false,  //UI层变化交由使用者自行控制
+
+		//isShowFooter: true,   //UI层变化交由使用者自行控制
+
+		isReady: false, //指searchMenu容器元素还没有被插入到界面上, 只有第一次才会返回false
+
+		recommendKeywordDataList: null,
+	},
 
 	recommendKeywordDataList: [],
 

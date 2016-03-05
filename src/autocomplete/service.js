@@ -5,19 +5,23 @@
  * Created on 16/3/5.
  */
 
-var attrs = require('./attrs');
-
 var service = {
+
+	toogleSearchMenu: function() {
+
+		service.toogleSearchMenuDisplayState.call(this);
+
+		this._options.onSearchMenuDisplayStateChange.call(this);
+
+	},
 
 	toogleSearchMenuDisplayState: function() {
 
-		//var displayAction = attrs.displayState ? 'hide' : 'show';
+		//var displayAction = this._attrs.displayState ? 'hide' : 'show';
 
-		//attrs.$searchMenu[displayAction]();   //UI层变化应移至对外回调中, 交给使用者自行处理
+		//this._attrs.$searchMenu[displayAction]();   //UI层变化应移至对外回调中, 交给使用者自行处理
 
-		attrs.displayState = !attrs.displayState;
-
-		this.options.onSearchMenuDisplayStateChange.call(this);
+		this._attrs.displayState = !this._attrs.displayState;
 
 	},
 
@@ -25,7 +29,26 @@ var service = {
 
 		service.setSearchItemIndex.call(this, keyCode);
 
-		this.options.onSelect.call(this, attrs.recommendKeywordDataList[attrs.searchItemIndex], attrs.recommendKeyword);
+		this._options.onSelect.call(this, this._attrs.recommendKeywordDataList, this._attrs.searchItemIndex, this._attrs.recommendKeyword);
+	},
+
+	resetSearchItemIndex: function(keyCode) {
+		/*反向边界线index值, up时recommendItemsCount, down时-1*/
+		var reverseBoundary;
+
+		if(keyCode == '38') {
+
+			reverseBoundary = this._attrs.recommendItemsCount;
+
+		}
+		else {
+
+			reverseBoundary = -1;
+
+		}
+
+		this._attrs.searchItemIndex = reverseBoundary;
+
 	},
 
 	setSearchItemIndex: function(keyCode) {
@@ -41,42 +64,52 @@ var service = {
 
 			boundary = -1;
 
-			reverseLimit = attrs.recommendItemsCount - 1;
+			reverseLimit = this._attrs.recommendItemsCount - 1;
 
 			vector = -1;
 		}
 		else {
 
-			boundary = attrs.recommendItemsCount;
+			boundary = this._attrs.recommendItemsCount;
 
 			reverseLimit = 0;
 
 			vector = 1;
 		}
 
-		if(attrs.searchItemIndex == boundary) {
+		if(this._attrs.searchItemIndex == boundary) {
 
-			attrs.searchItemIndex = reverseLimit;
+			this._attrs.searchItemIndex = reverseLimit;
 
 		}
 		else {
 
-			attrs.searchItemIndex = attrs.searchItemIndex + vector * 1;
+			this._attrs.searchItemIndex = this._attrs.searchItemIndex + vector * 1;
 
 		}
 
 	},
 
+	setSearchMenuData: function(dataList) {
+
+		$.extend(this._attrs.recommendKeywordDataList, dataList);
+
+		attr.searchMenuData.recommendKeywordDataList = this._attrs.recommendKeywordDataList;
+
+		this._options.onSetSearchMenuData.call(this, attr.searchMenuData);
+
+	},
+
 	//setSearchInputElementValue:  function() {
 	//
-	//	if(attrs.searchItemIndex == attrs.recommendItemsCount || attrs.searchItemIndex == -1) {
+	//	if(this._attrs.searchItemIndex == this._attrs.recommendItemsCount || this._attrs.searchItemIndex == -1) {
 	//
-	//		this.options.$searchInput.val(attrs.recommendKeyword);
+	//		this._options.$searchInput.val(this._attrs.recommendKeyword);
 	//
 	//	}
 	//	else {
 	//
-	//		this.options.$searchInput.val(attrs.recommendKeywordDataList[searchItemIndex].keyword);
+	//		this._options.$searchInput.val(this._attrs.recommendKeywordDataList[searchItemIndex].keyword);
 	//
 	//	}
 	//

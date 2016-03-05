@@ -8,8 +8,8 @@
 
 ;'use strict';
 
-require('./autocomplete.css');
-var tpl = require('autocomplete.ejs')
+//require('./autocomplete.css');            //UI层交给使用者自行处理
+//var tpl = require('autocomplete.ejs')     //UI层交给使用者自行处理
 var attrs = require('./attrs');
 var defaults = require('./options');
 var events = require('./events');
@@ -18,8 +18,7 @@ var events = require('./events');
 function AutoComplete(options) {
 
 	this._options = $.extend({}, defaults, options);
-	this._tpl = tpl;
-	this._attrs = attrs;
+	this._attrs = $.extend({}, attrs);
 
 	events.init.call(this);
 
