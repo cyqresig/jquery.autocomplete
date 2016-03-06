@@ -17,10 +17,6 @@ var service = {
 
 	toogleSearchMenuDisplayState: function() {
 
-		//var displayAction = this._attrs.displayState ? 'hide' : 'show';
-
-		//this._attrs.$searchMenu[displayAction]();   //UI层变化应移至对外回调中, 交给使用者自行处理
-
 		this._attrs.displayState = !this._attrs.displayState;
 
 	},
@@ -29,7 +25,7 @@ var service = {
 
 		service.setSearchItemIndex.call(this, keyCode);
 
-		this._options.onSelect.call(this, this._attrs.recommendKeywordDataList, this._attrs.searchItemIndex, this._attrs.recommendKeyword);
+		this._options.onSelect.call(this);
 	},
 
 	resetSearchItemIndex: function(keyCode) {
@@ -96,24 +92,10 @@ var service = {
 
 		attr.searchMenuData.recommendKeywordDataList = this._attrs.recommendKeywordDataList;
 
-		this._options.onSetSearchMenuData.call(this, attr.searchMenuData);
+		this._options.onSetSearchMenuData.call(this);
 
 	},
 
-	//setSearchInputElementValue:  function() {
-	//
-	//	if(this._attrs.searchItemIndex == this._attrs.recommendItemsCount || this._attrs.searchItemIndex == -1) {
-	//
-	//		this._options.$searchInput.val(this._attrs.recommendKeyword);
-	//
-	//	}
-	//	else {
-	//
-	//		this._options.$searchInput.val(this._attrs.recommendKeywordDataList[searchItemIndex].keyword);
-	//
-	//	}
-	//
-	//},
 
 
 
