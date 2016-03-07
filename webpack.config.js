@@ -5,7 +5,7 @@ var path = require("path");
 var webpack = require("webpack");
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 //var ExtractTextPlugin = require("extract-text-webpack-plugin");
-
+//test
 // returns a Compiler instance
 module.exports =
 
