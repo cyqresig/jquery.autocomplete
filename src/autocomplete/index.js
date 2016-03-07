@@ -8,8 +8,7 @@
 
 ;'use strict';
 
-//require('./autocomplete.css');            //UI层交给使用者自行处理
-//var tpl = require('autocomplete.ejs')     //UI层交给使用者自行处理
+require('./autocomplete.css');
 var attrs = require('./attrs');
 var defaults = require('./options');
 var events = require('./events');
@@ -17,12 +16,22 @@ var events = require('./events');
 
 function AutoComplete(options) {
 
-	this._options = $.extend({}, defaults, options);
-	this._attrs = $.extend({}, attrs);
+	var that = this;
 
-	events.init.call(this);
+	that._options = $.extend({}, defaults, options);
 
-	return this;
+	that._attrs = $.extend({}, attrs);
+
+	$.each(events.searchInput, function(eventType, bindEvent) {
+
+		bindEvent.call(that);
+
+	});
+
+	//check options, if error, throw custom Error
+	//@todo
+
+	//return this;
 }
 
 //AutoComplete.prototype = {

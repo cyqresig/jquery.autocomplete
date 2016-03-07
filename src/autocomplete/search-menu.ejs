@@ -1,4 +1,24 @@
 
-<div class="search-menu">
+<div id="<%=searchMenuData.id%>" class="search-menu">
+
+    <%if(searchMenuData.isShowHeader) { %>
+        <div class="search-menu-header">
+            最近搜索
+        </div>
+    <% } %>
+
+    <div class="search-menu-content">
+        <% searchMenuData.recommendKeywordDataList.forEach(function(data) { %>
+            <div class="search-item">
+                <%=data.keyword%>
+            </div>
+        <% }) %>
+    </div>
+
+    <%if(searchMenuData.isShowFooter) { %>
+        <div class="search-menu-footer">
+            关闭
+        </div>
+    <% } %>
 
 </div>

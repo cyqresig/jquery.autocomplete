@@ -7,15 +7,17 @@
 
 var template = require('./search-menu.ejs');
 
+var events = require('./events');
+
 var options = {
 
 	remote: false,
 
 	url: undefined,
 
-	paramName: 'query',
+	queryName: 'keyword',
 
-	params: null,
+	additionalQueryParams: null,
 
 	localData: null,
 
@@ -47,32 +49,32 @@ var options = {
 
 	onTemplate: onTemplate,
 
-	searchItemSelector: '.searchItem',
+	searchItemSelector: '.search-item',
 
-	searchItemSelectedSelector: '.selected',
+	searchItemSelectedSelector: '.selected'
 
 };
 
 function onSearchMenuDisplayStateChange() {
 
-	var action = this._attrs.displayState ? 'show' : 'hide';
+	var action;
 
-	this._attrs.$searchMenu[action]();
+	//上来$searchMenu还不会生成, 直到匹配了一次搜索结果后
+	if(this._attrs.$searchMenu != null) {
+
+		action = this._attrs.displayState ? 'show' : 'hide';
+
+		this._attrs.$searchMenu[action]();
+
+	}
+
 
 }
 
 function onSetSearchMenuData() {
 
-	if(this._attrs.recommendKeyword) {
+	this._attrs.searchMenuData.isShowHeader = !this._attrs.recommendKeyword;
 
-		this._attrs.searchMenuData.isShowHeader = false;
-
-	}
-	else {
-
-		this._attrs.searchMenuData.isShowHeader = true;
-
-	}
 	this._attrs.searchMenuData.isShowFooter = true;
 
 }
@@ -81,6 +83,9 @@ function onSetSearchMenuData() {
 function onSelect(mouseEventType) {
 
 	var selectedCssClass = this._options.searchItemSelectedSelector.replace('.', '');
+
+	this._attrs.$searchMenu.find(this._options.searchItemSelector + this._options.searchItemSelectedSelector).removeClass(selectedCssClass);
+
 
 	if(this._attrs.searchItemIndex == this._attrs.recommendItemsCount || this._attrs.searchItemIndex == -1) {
 
@@ -91,17 +96,18 @@ function onSelect(mouseEventType) {
 
 		if(!mouseEventType) {
 
+			this._attrs.recommendKeyword = this._attrs.recommendKeywordDataList[this._attrs.searchItemIndex].keyword;
 
-			this._options.$searchInput.val(this._attrs.recommendKeywordDataList[this._attrs.searchItemIndex].keyword);
+			this._options.$searchInput.val(this._attrs.recommendKeyword);
 
-			this._attrs.$searchMenu.find(':eq('+ this._attrs.searchItemIndex +')').addClass(selectedCssClass);
+			this._attrs.$searchMenu.find(this._options.searchItemSelector + ':eq('+ this._attrs.searchItemIndex +')').addClass(selectedCssClass);
 
 		}
 		else {
 
-			if(mouseEventType == 'enter') {
+			if(mouseEventType == 'mouseenter') {
 
-				this._attrs.$searchMenu.find(':eq('+ this._attrs.searchItemIndex +')').addClass(selectedCssClass);
+				this._attrs.$searchMenu.find(this._options.searchItemSelector + ':eq('+ this._attrs.searchItemIndex +')').addClass(selectedCssClass);
 
 			}
 
@@ -109,25 +115,39 @@ function onSelect(mouseEventType) {
 
 	}
 
-	this._attrs.$searchMenu.find(this._options.searchItemSelector + this._options.searchItemSelectedSelector).removeClass(selectedCssClass);
-
-
 }
 
 function onTemplate(templateHtml) {
 
-	var $body = $(document.body);
+	var $body, that = this;
 
-	if(this._attrs.$searchMenu == null) {
+	if(that._attrs.$searchMenu == null) {
+
+		$body = $(document.body);
 
 		$body.append(templateHtml);
+
+		that._attrs.$searchMenu = $('#' + that._attrs.searchMenuData.id);
 
 	}
 	else {
 
-		this._attrs.$searchMenu.html(templateHtml);
+		that._attrs.$searchMenu.html(templateHtml);
 
 	}
+
+	if(!that._attrs.searchMenuData.isReady) {
+
+		$.each(events.searchMenu, function(eventType, bindEvent) {
+
+			bindEvent.call(that);
+
+		});
+
+		that._attrs.searchMenuData.isReady = true;
+
+	}
+
 }
 
 module.exports = options;

@@ -1,0 +1,26 @@
+
+
+.search-menu {
+
+    background: #fff;
+    border: 1px solid #BEBEBE;
+    cursor: default;
+    margin: 0;
+    outline: 0;
+    position: absolute;
+    z-index: 99999;
+    width: 616px;
+
+}
+
+.search-item {
+
+    height: 26px;
+
+}
+
+.search-item.selected {
+
+    background-color: gray;
+
+}

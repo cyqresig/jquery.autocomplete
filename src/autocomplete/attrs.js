@@ -16,7 +16,7 @@ var attrs = {
 
 		isReady: false, //指searchMenu容器元素还没有被插入到界面上, 只有第一次才会返回false
 
-		recommendKeywordDataList: null,
+		recommendKeywordDataList: []
 	},
 
 	recommendKeywordDataList: [],
@@ -35,6 +35,8 @@ var attrs = {
 
 	defered: null,
 
+	allowFocusOut: true,
+
 	focusState: false,
 
 	displayState: false,
@@ -43,7 +45,7 @@ var attrs = {
 
 	searchItemIndex: -1,
 
-	$searchMenu: null,
+	$searchMenu: null
 
 };
 

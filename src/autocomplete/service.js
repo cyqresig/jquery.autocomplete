@@ -4,10 +4,16 @@
  * @version
  * Created on 16/3/5.
  */
+var utils = require('./utils');
 
 var service = {
 
 	toogleSearchMenu: function() {
+
+		if(!this._attrs.displayState && this._attrs.recommendItemsCount == 0) {
+
+			return;
+		}
 
 		service.toogleSearchMenuDisplayState.call(this);
 
@@ -88,16 +94,67 @@ var service = {
 
 	setSearchMenuData: function(dataList) {
 
+		this._attrs.recommendKeywordDataList.length = 0;
+
 		$.extend(this._attrs.recommendKeywordDataList, dataList);
 
-		attr.searchMenuData.recommendKeywordDataList = this._attrs.recommendKeywordDataList;
+		this._attrs.recommendItemsCount = this._attrs.recommendKeywordDataList.length;
+
+		this._attrs.searchMenuData.recommendKeywordDataList = this._attrs.recommendKeywordDataList;
+
+		if(!this._attrs.searchMenuData.id && this._attrs.recommendKeywordDataList.length > 0) {
+
+			this._attrs.searchMenuData.id = utils.generateId();
+
+		}
 
 		this._options.onSetSearchMenuData.call(this);
 
 	},
 
+	abortXhr: function(xhr) {
+
+		xhr.abort();
+
+		service.destoryXhr();
+	},
 
 
+	destoryXhr: function(xhr) {
+
+		xhr = null;
+
+	},
+
+	destoryDefered: function(defered) {
+
+		clearTimeout(defered);
+
+		defered = null;
+
+	},
+
+	setHistorySearchedKeywordCacheList: function() {
+
+		this._attrs.historySearchedKeywordCacheList.unshift(this._attrs.recommendKeyword);
+
+		if(this._attrs.historySearchedKeywordCacheList.length > this._options.maximumHistorySearchedKeywordCacheList) {
+
+			this._attrs.historySearchedKeywordCacheList.length = this._options.maximumHistorySearchedKeywordCacheList;
+
+		}
+	},
+
+	generateTemplate: function() {
+
+		var templateHtml = this._options.template({
+
+			searchMenuData: this._attrs.searchMenuData
+
+		});
+
+		this._options.onTemplate.call(this, templateHtml);
+	}
 
 };
 

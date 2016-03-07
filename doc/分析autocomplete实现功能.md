@@ -32,17 +32,17 @@
 
             1.  [分支]当*推荐搜索关键词*`recommendKeyword`的值为空时,
 
-                1.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`为true
+                1.  [判断]*一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`为true
 
                        1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                       2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为false
+                       2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为false
 
             2.  [分支]当*推荐搜索关键词*`recommendKeyword`的值不为空时,
 
                 1.  [分支]当*推荐搜索关键词*`recommendKeyword`被*本地数据源*`localData`中的关键词匹配时
 
-                    1.  将值给*search-menu-content的赋值数据源*`recommendKeywordDataList`赋值 -> *本地数据源*`localData`
+                    1.  将值给*search-menu-content的赋值数据源*`recommendKeywordDataList`赋值 -> *本地数据源*`localData`匹配项
 
                     2.  *推荐搜索项count*`recommendItemsCount`赋值
 
@@ -52,11 +52,11 @@
 
                 2.  [分支]当*推荐搜索关键词*`recommendKeyword`被*本地数据源*`localData`中的关键词不匹配时
 
-                     1.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`为true
+                     1.  [判断]*一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`为true
 
                             1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                            2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为false
+                            2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为false
 
                 3.  将*search-menu的赋值数据源*`searchMenuData`传入配置的模板, 得到最终的html代码
 
@@ -66,7 +66,7 @@
 
                     1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                    2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为true
+                    2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为true
 
         2.  [分支]*是否使用远程数据*`remote`的值为true时,
 
@@ -100,7 +100,7 @@
 
                         1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                        2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为true
+                        2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为true
 
                 2.  [分支][有效分支]当已经不存在*历史已提交搜索关键词缓存*`historySearchedKeywordCacheList`时
 
@@ -108,13 +108,13 @@
 
                         1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                        2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为false
+                        2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为false
 
             2.  [分支]当*推荐搜索关键词*`recommendKeyword`的值不为空时,
 
                 1.  [分支]当*推荐搜索关键词*`recommendKeyword`被*历史未提交搜索关键词缓存*`historyKeywordCacheList`中的关键词匹配时
 
-                    1.  获取匹配键的值, 对值进行Json反序列化
+                    1.  获取*历史推荐搜索关键词 -> 返回的数据结果集*`historyRecommendKeywordCache`匹配键的值, 对值进行Json反序列化
 
                     2.  将值给*search-menu-content的赋值数据源*`recommendKeywordDataList`赋值
 
@@ -132,7 +132,7 @@
 
                         1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                        2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为true
+                        2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为true
 
                 2.  [分支][有效分支]当*推荐搜索关键词*`recommendKeyword`被*历史未提交搜索关键词缓存*`historyKeywordCacheList`中的关键词不匹配时
 
@@ -156,7 +156,7 @@
 
                         1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                        2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为true
+                        2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为true
 
     2.  `click`*事件*
 
@@ -176,7 +176,7 @@
 
                     1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                    2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为false
+                    2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为false
 
         2.  [分支]当*推荐搜索关键词*`recommendKeyword`的值不为空时,
 
@@ -189,14 +189,14 @@
                 3.  *推荐搜索项count*`recommendItemsCount`赋值
 
                 3.  给*search-menu的赋值数据源*`searchMenuData`的[key] `recommendKeywordDataList` 赋值
-                
+
             2.  [分支][无效分支]当*推荐搜索关键词*`recommendKeyword`被*历史未提交搜索关键词缓存*`historyKeywordCacheList`中的关键词不匹配时
 
                 1.  [判断]*一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`为true
 
                     1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                    2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为false
+                    2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为false
 
         3.  将*search-menu的赋值数据源*`searchMenuData`传入配置的模板, 得到最终的html代码
 
@@ -206,7 +206,7 @@
 
             1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-            2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为true
+            2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为true
 
     3.  `foucsin` 事件
 
@@ -220,7 +220,7 @@
 
             1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-            2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为false
+            2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为false
 
     4.  `keydown` 事件
 
@@ -230,7 +230,7 @@
 
                 1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为false
+                2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为false
 
         2.  RETURN: 13
 
@@ -238,7 +238,7 @@
 
                 1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为false
+                2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为false
 
             1.  [判断]*提交搜索事件 -> 回调函数*`onSearch`是否存在
 
@@ -256,7 +256,7 @@
 
                     1.  执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                    2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为true
+                    2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为true
 
                 2.  [分支]*一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`为true
 
@@ -292,7 +292,7 @@
 
                     1.  执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-                    2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为true
+                    2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为true
 
                 2.  [分支]*一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`为true
 
@@ -328,19 +328,33 @@
 
             1.  执行`onSelect` (处理UI层变化, 变更选中项的样式, 变更输入文本框中显示的推荐词)
 
+        4.  *是否允许`search-input`focusout事件触发*`allowFocusOut`赋值false
+
     2. `mouseleave`事件
 
-        1.  [判断]*切换推荐搜索项事件 -> 回调函数*`onSelect`是否存在
+        1.  *当前选择/停留的搜索项index*`searchItemIndex`赋值0
 
-            2.  执行`onSelect` (处理UI层变化, 变更选中项的样式, 变更输入文本框中显示的推荐词)
+        2.  [判断]*切换推荐搜索项事件 -> 回调函数*`onSelect`是否存在
+
+            1.  执行`onSelect` (处理UI层变化, 变更选中项的样式, 变更输入文本框中显示的推荐词)
+
+         3.  *是否允许`search-input`focusout事件触发*`allowFocusOut`赋值true
 
     2.  `click`事件 (针对searchItem冒泡)
+
+         1.  根据*每个推荐搜索项匹配的选择器*`searchItemSelector`, 获取到事件触发的searchItem的index,
+
+         2.  *当前选择/停留的搜索项index*`searchItemIndex`赋值
+
+         3.  [判断]*切换推荐搜索项事件 -> 回调函数*`onSelect`是否存在
+
+             1.  执行`onSelect` (处理UI层变化, 变更选中项的样式, 变更输入文本框中显示的推荐词)
 
          1.  [判断]*一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`为true
 
              1.  [结束]执行`onSearchMenuDisplayStateChange` (处理UI层变化, 推荐搜索层的隐显)
 
-             2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值为false
+             2.  *一个填充搜索推荐层*`search-menu`*当前显示状态*`displayState`赋值(需要判断*推荐搜索项count*`recommendItemsCount`不为0)为false
 
          1.  [判断]*提交搜索事件 -> 回调函数*`onSearch`是否存在
 
@@ -395,9 +409,9 @@
 
 8.  [公开]*远程请求地址*`url`(String) 默认未定义 (当`remote`为true时必须指定)
 
-9.  [公开]*对应搜索文本的请求参数名*`paramName`(String) 默认为'query'
+9.  [公开]*对应搜索文本的请求参数名*`queryName`(String) 默认为'query'
 
-10. [公开]*附加请求参数对象*`params`(Object) 默认null (需要支持实例修改)
+10. [公开]*附加请求参数对象*`additionalQueryParams`(Object) 默认null (需要支持实例修改)
 
 11. [公开]*本地数据源*`localData`(Object) 默认null (当`remote`为false时必须指定)
 
@@ -438,3 +452,5 @@
 27. [公开]*每个推荐搜索项匹配的选择器*`searchItemSelector`(String) 默认为与默认模板匹配的选择器 可自定义, 但需要同时自定义模板
 
 28. [公开]*被选中的那个推荐搜索项匹配的附加选择器*`searchItemSelectedSelector`(String) 默认为与默认模板匹配的附加选择器 可自定义, 但需要同时自定义css
+
+29  *是否允许`search-input`focusout事件触发*`allowFocusOut`(Boolean) 默认true 为防止点击`search-menu`执行foucsout事件逻辑

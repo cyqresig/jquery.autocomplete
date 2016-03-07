@@ -14,14 +14,14 @@ var event = {
 
 		onInput: function() {
 
-			var $input = this._options.$input;
+			var $input = this._options.$searchInput;
 
 			$input.on('input', $.proxy(handler.searchInput.onInputHandler, this));
 		},
 
 		onClick: function() {
 
-			var $input = this._options.$input;
+			var $input = this._options.$searchInput;
 
 			$input.on('click', $.proxy(handler.searchInput.onClickHandler, this));
 
@@ -29,24 +29,24 @@ var event = {
 
 		onFoucsIn: function() {
 
-			var $input = this._options.$input;
+			var $input = this._options.$searchInput;
 
 			$input.on('foucsin', $.proxy(handler.searchInput.onFoucsInHandler, this));
 		},
 
 		onFocusOut: function() {
 
-			var $input = this._options.$input;
+			var $input = this._options.$searchInput;
 
 			$input.on('focusout', $.proxy(handler.searchInput.onFocusOutHandler, this));
 		},
 
 		onKeyDown: function() {
 
-			var $input = this._options.$input;
+			var $document = $(document);
 
-			$input.on('keydown', $.proxy(handler.searchInput.onKeyDownHandler, this));
-		},
+			$document.on('keydown', $.proxy(handler.searchInput.onKeyDownHandler, this));
+		}
 
 	},
 
@@ -56,7 +56,7 @@ var event = {
 
 			var $searchMenu = this._attrs.$searchMenu;
 
-			$searchMenu.on('mouseenter', this._attrs.searchItemSelector, $.proxy(handler.searchMenu.onMouseEnterHandler, this));
+			$searchMenu.on('mouseenter', this._options.searchItemSelector, $.proxy(handler.searchMenu.onMouseEnterHandler, this));
 
 		},
 
@@ -72,11 +72,11 @@ var event = {
 
 			var $searchMenu = this._attrs.$searchMenu;
 
-			$searchMenu.on('click', this._attrs.searchItemSelector, $.proxy(handler.searchMenu.onClickHandler, this));
+			$searchMenu.on('click', this._options.searchItemSelector, $.proxy(handler.searchMenu.onClickHandler, this));
 
 		}
 
-	},
+	}
 
 };
 
