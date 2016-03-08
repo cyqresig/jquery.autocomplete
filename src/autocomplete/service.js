@@ -94,9 +94,11 @@ var service = {
 
 	setSearchMenuData: function(dataList) {
 
+		this._options.formatRecommendKeywordData.call(this, dataList, this._attrs.recommendKeyword);
+
 		this._attrs.recommendKeywordDataList.length = 0;
 
-		$.extend(this._attrs.recommendKeywordDataList, dataList);
+		$.extend(true, this._attrs.recommendKeywordDataList, dataList);
 
 		this._attrs.recommendItemsCount = this._attrs.recommendKeywordDataList.length;
 
@@ -109,6 +111,49 @@ var service = {
 		}
 
 		this._options.onSetSearchMenuData.call(this);
+
+	},
+
+	getWrapHistorySearchedKeywordCacheList: function(historySearchedKeywordCacheList) {
+
+		var that = this, wrapList = [], wrapObj;
+
+		$.each(historySearchedKeywordCacheList, function(index, item) {
+
+			wrapObj = {};
+
+			wrapObj[that._options.suggestKeyword] = item;
+
+			wrapList.push(wrapObj);
+
+		});
+
+		return wrapList;
+	},
+
+	setHistoryRecommendKeywordCache: function(recommendKeywordDataList, recommendKeyword) {
+
+		if(!(recommendKeyword in this._attrs.historyRecommendKeywordCache)) {
+
+			if(this._attrs.historyRecommendKeywordCacheList.length == this._options.maximumHistoryKeywordCacheList) {
+
+				service.shiftHistoryRecommendKeywordCache.call(this);
+
+			}
+
+			this._attrs.historyRecommendKeywordCacheList.push(recommendKeyword);
+
+			this._attrs.historyRecommendKeywordCache[recommendKeyword] = JSON.stringify(recommendKeywordDataList);
+
+		}
+
+	},
+
+	shiftHistoryRecommendKeywordCache: function() {
+
+		var recommendKeyword = this._attrs.historyRecommendKeywordCacheList.shift();
+
+		delete this._attrs.historyRecommendKeywordCache[recommendKeyword];
 
 	},
 
@@ -154,6 +199,26 @@ var service = {
 		});
 
 		this._options.onTemplate.call(this, templateHtml);
+	},
+
+	processResponse: function(dataList) {
+
+		service.setHistoryRecommendKeywordCache.call(this, dataList, this._attrs.recommendKeyword);
+
+		if(dataList.length > 0) {
+
+			service.setSearchMenuData.call(this, dataList);
+
+			service.generateTemplate.call(this);
+
+			if(!this._attrs.displayState) {
+
+				service.toogleSearchMenu.call(this);
+
+			}
+
+		}
+
 	}
 
 };

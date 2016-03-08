@@ -23,7 +23,7 @@ var attrs = {
 
 	historySearchedKeywordCacheList: [],
 
-	historyKeywordCacheList: [],
+	historyRecommendKeywordCacheList: [],
 
 	historyRecommendKeywordCache: {},
 

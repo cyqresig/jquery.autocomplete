@@ -382,9 +382,9 @@
 
 2.  *历史已提交搜索关键词缓存*`historySearchedKeywordCacheList`(Array\<String>) 默认为空数组
 
-3.  *历史未提交搜索关键词缓存*`historyKeywordCacheList`(Array\<String>) 默认为空数组
+3.  *历史未提交推荐搜索关键词缓存*`historyRecommendKeywordCacheList`(Array\<String>) 默认为空数组
 
-4.  *历史推荐搜索关键词 -> 返回的数据结果集*`historyRecommendKeywordCache`(Object) 默认为空对象
+4.  *历史未提交推荐搜索关键词 -> 返回的数据结果集*`historyRecommendKeywordCache`(Object) 默认为空对象
 
     key -> historyKeyword | value -> recommendKeywordDataList toJson
 
@@ -401,15 +401,13 @@
 
 5.  [公开]*历史已提交搜索关键词缓存最大个数*`maximumHistorySearchedKeywordCacheList`(Int) 默认为10
 
-5.  [公开]*推荐搜索项显示个数*`maximumRecommendKeywordDataList`(Int) 默认为10
-
 6.  [公开]*历史未提交搜索关键词缓存最大个数*`maximumHistoryKeywordCacheList`(Int) 默认为100
 
 7.  [公开]*是否使用远程数据*`remote`(Boolean) 默认false (请求方式强制使用jsonp)
 
 8.  [公开]*远程请求地址*`url`(String) 默认未定义 (当`remote`为true时必须指定)
 
-9.  [公开]*对应搜索文本的请求参数名*`queryName`(String) 默认为'query'
+9.  [公开]*对应搜索文本的请求参数名*`queryName`(String) 默认为'searchKey'
 
 10. [公开]*附加请求参数对象*`additionalQueryParams`(Object) 默认null (需要支持实例修改)
 
@@ -451,6 +449,20 @@
 
 27. [公开]*每个推荐搜索项匹配的选择器*`searchItemSelector`(String) 默认为与默认模板匹配的选择器 可自定义, 但需要同时自定义模板
 
-28. [公开]*被选中的那个推荐搜索项匹配的附加选择器*`searchItemSelectedSelector`(String) 默认为与默认模板匹配的附加选择器 可自定义, 但需要同时自定义css
+28. [公开]*被选中的那个推荐搜索项匹配的选择器*`searchItemSelectedSelector`(String) 默认为与默认模板匹配的附加选择器 可自定义, 但需要同时自定义css
 
-29  *是否允许`search-input`focusout事件触发*`allowFocusOut`(Boolean) 默认true 为防止点击`search-menu`执行foucsout事件逻辑
+29.  *是否允许`search-input`focusout事件触发*`allowFocusOut`(Boolean) 默认true 为防止点击`search-menu`执行foucsout事件逻辑
+
+30. [公开]*search-menu-content的赋值数据源*`recommendKeywordDataList`*中对应显示推荐搜索词的字段名*`suggestKeyword`(String) 默认为'keyword'
+
+31. [公开]*请求远程数据, 返回结果对应dataList数组的key*`resultListKey`(String) 默认为'list'
+
+32. [公开]*推荐搜索层*`search-menu`*的footer部分匹配的选择器*`searchMenuFooterSelector`(String) 默认为'.search-menu-footer' 可自定义, 但需要同时自定义模板
+
+33. [公开]*推荐搜索层*`search-menu`*的内容部分匹配的选择器*`searchMenuContentSelector`(String) 默认为'.search-menu-content'   可自定义, 但需要同时自定义模板
+
+34. [公开]*远程请求超时时间*`timeout`(Int) 默认为3000(30s)
+
+35. [公开]*远程请求返回数据方式*`dataType`(String) 默认为'json' 也支持'jsonp'
+
+36. [公开]*search-menu-content的赋值数据源*`recommendKeywordDataList`*中对应显示推荐搜索词的字段的html内容*`suggestKeywordHtml`(String) 默认为'suggestKeywordHtml'  可自定义, 但需要同时自定义模板

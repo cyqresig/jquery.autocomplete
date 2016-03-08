@@ -6,11 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
-    "util": "^0.10.3",
+    "autoprefixer-loader": "^3.2.0",
     "connect-livereload": "^0.5.4",
     "css-loader": "^0.23.1",
     "ejs-loader": "^0.2.1",
@@ -21,9 +19,13 @@
     "gulp-serve": "^1.2.0",
     "gulp-util": "^3.0.7",
     "html-loader": "^0.4.3",
+    "less": "^2.6.1",
+    "less-loader": "^2.2.2",
+    "mockjs": "^1.0.0",
     "require-dir": "^0.3.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
+    "util": "^0.10.3",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-dev-server": "^1.14.1"

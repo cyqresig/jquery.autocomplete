@@ -8,7 +8,7 @@
 
 ;'use strict';
 
-require('./autocomplete.css');
+require('./autocomplete.less');
 var attrs = require('./attrs');
 var defaults = require('./options');
 var events = require('./events');
@@ -18,15 +18,17 @@ function AutoComplete(options) {
 
 	var that = this;
 
-	that._options = $.extend({}, defaults, options);
+	that._options = $.extend(true, {}, defaults, options);
 
-	that._attrs = $.extend({}, attrs);
+	that._attrs = $.extend(true, {}, attrs);
 
 	$.each(events.searchInput, function(eventType, bindEvent) {
 
 		bindEvent.call(that);
 
 	});
+
+	that._options.$searchInput.attr('autocomplete', 'off');
 
 	//check options, if error, throw custom Error
 	//@todo

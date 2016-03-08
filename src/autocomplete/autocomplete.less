@@ -1,0 +1,75 @@
+
+@search-menu-backgroud-color: #fff;
+@search-menu-border-width: 1px;
+@search-menu-border-color: #BEBEBE;
+@search-menu-width: 586px;
+@search-menu-line-height: 26px;
+@search-menu-content-height: 260px;
+@search-item-selected-background-color: #EDEDED;
+@search-item-horizontal-cap: 6px;
+
+.search-content-height() {
+
+    line-height: @search-menu-line-height;
+    height: @search-menu-line-height;
+
+}
+
+.search-content-cap() {
+
+    padding: 0 @search-item-horizontal-cap;
+
+}
+
+.search-menu {
+
+    font-family: tahoma,arial,'Hiragino Sans GB','宋体',sans-serif;
+
+    background: @search-menu-backgroud-color;
+    border: @search-menu-border-width solid @search-menu-border-color;
+    cursor: default;
+    margin: 0;
+    outline: 0;
+    position: absolute;
+    z-index: 99999;
+    width: @search-menu-width;
+    user-select: none;
+
+    .search-menu-header {
+
+        .search-content-height();
+        .search-content-cap();
+
+    }
+
+    .search-menu-content() {
+
+        height: @search-menu-content-height;
+
+    }
+
+    .search-item {
+
+        .search-content-height();
+        .search-content-cap();
+        cursor: pointer;
+
+        &.selected {
+
+            background-color: @search-item-selected-background-color;
+
+        }
+
+    }
+
+    .search-menu-footer {
+
+        .search-content-height();
+        .search-content-cap();
+        text-align: right;
+        cursor: pointer;
+
+    }
+
+}
+

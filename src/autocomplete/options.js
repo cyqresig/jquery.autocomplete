@@ -7,6 +7,8 @@
 
 var template = require('./search-menu.ejs');
 
+var utils = require('./utils');
+
 var events = require('./events');
 
 var options = {
@@ -15,13 +17,23 @@ var options = {
 
 	url: undefined,
 
-	queryName: 'keyword',
+	timeout: 3000,
+
+	dataType: 'json',
+
+	resultListKey: 'list',
+
+	suggestKeyword: 'keyword',
+
+	suggestKeywordHtml: 'keywordHtml',
+
+	queryName: 'searchKey',
 
 	additionalQueryParams: null,
 
 	localData: null,
 
-	recommendFetchInterval: 10,
+	recommendFetchInterval: 100,
 
 	isShowHeader: false,
 
@@ -31,9 +43,7 @@ var options = {
 
 	maximumHistoryKeywordCacheList: 100,
 
-	maximumRecommendKeywordDataList: 10,
-
-	formatRecommendKeywordData: $.noop,
+	formatRecommendKeywordData: formatRecommendKeywordData,
 
 	onSearchMenuDisplayStateChange: onSearchMenuDisplayStateChange,
 
@@ -51,9 +61,28 @@ var options = {
 
 	searchItemSelector: '.search-item',
 
+	searchMenuContentSelector: '.search-menu-content',
+
+	searchMenuFooterSelector: '.search-menu-footer',
+
 	searchItemSelectedSelector: '.selected'
 
 };
+
+function formatRecommendKeywordData(dataList, keyword) {
+
+	var suggestKeywordHtml = this._options.suggestKeywordHtml,
+		suggestKeyword = this._options.suggestKeyword;
+
+	$.each(dataList, function(index, item) {
+
+		var pattern = '^(' + utils.escapeRegExChars(keyword) + ')(.*)$';
+
+		item[suggestKeywordHtml] = item[suggestKeyword].replace(new RegExp(pattern, 'gi'), '$1<b>$2<\/b>');
+
+	});
+
+}
 
 function onSearchMenuDisplayStateChange() {
 
@@ -119,7 +148,7 @@ function onSelect(mouseEventType) {
 
 function onTemplate(templateHtml) {
 
-	var $body, that = this;
+	var $body, that = this, offset;
 
 	if(that._attrs.$searchMenu == null) {
 
@@ -135,6 +164,16 @@ function onTemplate(templateHtml) {
 		that._attrs.$searchMenu.html(templateHtml);
 
 	}
+
+	offset = that._options.$searchInput.offset();
+
+	that._attrs.$searchMenu.css({
+
+		left: offset.left,
+
+		top: offset.top + that._options.$searchInput.outerHeight(),
+
+	});
 
 	if(!that._attrs.searchMenuData.isReady) {
 

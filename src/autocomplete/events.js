@@ -64,7 +64,7 @@ var event = {
 
 			var $searchMenu = this._attrs.$searchMenu;
 
-			$searchMenu.on('mouseleave', $.proxy(handler.searchMenu.onMouseLeaveHandler, this));
+			$searchMenu.on('mouseleave', this._options.searchMenuContentSelector, $.proxy(handler.searchMenu.onMouseLeaveHandler, this));
 
 		},
 
@@ -72,7 +72,10 @@ var event = {
 
 			var $searchMenu = this._attrs.$searchMenu;
 
-			$searchMenu.on('click', this._options.searchItemSelector, $.proxy(handler.searchMenu.onClickHandler, this));
+			$searchMenu
+				.on('click', this._options.searchItemSelector, $.proxy(handler.searchMenu.onClickHandler, this))
+				.on('click', this._options.searchMenuFooterSelector, $.proxy(handler.searchMenu.onFooterClickHandler, this));
+
 
 		}
 

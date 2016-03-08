@@ -5,7 +5,7 @@
  * Created on 16/3/5.
  */
 
-//var util = require('./utils');
+var util = require('./utils');
 var service = require('./service');
 
 var handler = {
@@ -14,8 +14,7 @@ var handler = {
 
 		onInputHandler: function() {
 
-			//var templateHtml;
-			var that, queryData;
+			var that, queryData, recommendKeywordDataList, wrapHistorySearchedKeywordCacheList;
 
 			this._attrs.recommendKeyword = this._options.$searchInput.val().trim();
 
@@ -81,7 +80,9 @@ var handler = {
 
 					if(this._attrs.historySearchedKeywordCacheList.length > 0) {
 
-						service.setSearchMenuData.call(this, this._attrs.historySearchedKeywordCacheList);
+						wrapHistorySearchedKeywordCacheList = service.getWrapHistorySearchedKeywordCacheList.call(this, this._attrs.historySearchedKeywordCacheList);
+
+						service.setSearchMenuData.call(this, wrapHistorySearchedKeywordCacheList);
 
 						service.generateTemplate.call(this);
 
@@ -105,25 +106,18 @@ var handler = {
 				}
 				else {
 
-					if(~$.inArray(this._attrs.recommendKeyword, this._attrs.historyKeywordCacheList)) {
+					if(this._attrs.recommendKeyword in this._attrs.historyRecommendKeywordCache) {
 
 
-						if(this._attrs.recommendKeyword in this._attrs.historyRecommendKeywordCache) {
+						recommendKeywordDataList = JSON.parse(this._attrs.historyRecommendKeywordCache[this._attrs.recommendKeyword]);
 
-							service.setSearchMenuData.call(this, JSON.parse(this._attrs.historyRecommendKeywordCache[this._attrs.recommendKeyword]));
+						if(recommendKeywordDataList.length > 0) {
+
+							service.setSearchMenuData.call(this, recommendKeywordDataList);
 
 							service.generateTemplate.call(this);
 
-							if(!this._attrs.displayState) {
-
-								service.toogleSearchMenu.call(this);
-
-							}
-
-						}
-						else {
-
-							if(this._attrs.displayState) {
+							if (!this._attrs.displayState) {
 
 								service.toogleSearchMenu.call(this);
 
@@ -134,15 +128,21 @@ var handler = {
 					}
 					else {
 
+						//if(this._attrs.displayState) {
+						//
+						//	service.toogleSearchMenu.call(this);
+						//
+						//}
+
 						that = this;
 
 						queryData = {};
 
-						queryData[that._attrs.paramName] = that._attrs.recommendKeyword;
+						queryData[that._options.queryName] = encodeURIComponent(that._attrs.recommendKeyword);
 
 						if($.isPlainObject(this._options.additionalQueryParams)) {
 
-							$.extend(queryData, this._options.additionalQueryParams);
+							$.extend(true, queryData, this._options.additionalQueryParams);
 						}
 
 						that._attrs.defered = setTimeout(function() {
@@ -155,29 +155,22 @@ var handler = {
 
 								data: queryData,
 
-								dataType: 'jsonp',
+								dataType: that._options.dataType,
 
-								jsonpCallback: 'suggestionJsonpCallBack',
+								timeout: that._options.timeout,
 
-								success: function(dataList) {
+								success: function(result) {
 
-									//var templateHtml;
+									var dataList = result[that._options.resultListKey];
 
-									service.setSearchMenuData.call(that, dataList);
-
-									service.generateTemplate.call(that);
-
-									if(!that._attrs.displayState) {
-
-										service.toogleSearchMenu.call(that);
-
-									}
+									service.processResponse.call(that, dataList);
 
 								},
 
-								error: function() {
+								error: function(xhr, textStatus, errorThrown) {
 
-									throw new Error('jsonp请求失败');
+									//throw new Error('jsonp请求失败');
+									util.debug(xhr);
 
 								},
 
@@ -204,22 +197,20 @@ var handler = {
 
 		onClickHandler: function() {
 
-			var recommendKeywordDataList;
+			var recommendKeywordDataList, wrapHistorySearchedKeywordCacheList;
 
 			if(!this._attrs.recommendKeyword) {
 
-				//if(this._attrs.historySearchedKeywordCacheList.length > 0) {
+				wrapHistorySearchedKeywordCacheList = service.getWrapHistorySearchedKeywordCacheList.call(this, this._attrs.historySearchedKeywordCacheList);
 
-					service.setSearchMenuData.call(this, this._attrs.historySearchedKeywordCacheList);
-
-				//}
+				service.setSearchMenuData.call(this, wrapHistorySearchedKeywordCacheList);
 
 			}
 			else {
 
-				if(~$.inArray(this._attrs.recommendKeyword, this._attrs.historyKeywordCacheList)) {
+				if(this._attrs.recommendKeyword in this._attrs.historyRecommendKeywordCache) {
 
-					recommendKeywordDataList = this._attrs.historyRecommendKeywordCache[this._attrs.recommendKeyword] || [];
+					recommendKeywordDataList = JSON.parse(this._attrs.historyRecommendKeywordCache[this._attrs.recommendKeyword]);
 
 				}
 
@@ -254,7 +245,11 @@ var handler = {
 
 				this._attrs.focusState = false;
 
-				service.toogleSearchMenu.call(this);
+				if(this._attrs.displayState) {
+
+					service.toogleSearchMenu.call(this);
+
+				}
 
 			}
 
@@ -366,6 +361,12 @@ var handler = {
 			}
 
 			this._options.onSearch.call(this, this._attrs.recommendKeywordDataList[this._attrs.searchItemIndex], this._attrs.recommendKeyword);
+
+		},
+
+		onFooterClickHandler: function() {
+
+			service.toogleSearchMenu.call(this);
 
 		}
 

@@ -20,6 +20,22 @@ var util = {
 
 	},
 
+	debug: function(content) {
+
+		if(console) {
+
+			console.debug(content);
+
+		}
+
+	},
+
+	escapeRegExChars: function (value) {
+
+		return value.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+
+	}
+
 };
 
 module.exports = util;
