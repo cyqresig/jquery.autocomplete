@@ -3,7 +3,7 @@
 
 开发环境采用webpack-dev-server
 
-## [运行环境]
+## 运行环境
 
 *   确保安装了nodejs环境
 
