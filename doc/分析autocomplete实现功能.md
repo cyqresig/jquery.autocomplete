@@ -5,11 +5,11 @@
 
 ##  确定实现功能所需的所有界面(按逻辑划分)
 
-1.  *一个单行文本框*`search-input`      (必要元素, 事先存在)
+1.  *一个单行文本框*`search-input`
 
-2.  *一个填充搜索推荐层*`search-menu`    (作为自定义模板, 通过公开api生成)
+2.  *一个填充搜索推荐层*`search-menu`
 
-    1. *头部区域块*`search-menu-header`(默认不显示)
+    1. *头部区域块*`search-menu-header`
 
     2. *内容区域块*`search-menu-content`
 
@@ -17,9 +17,11 @@
 
             1.  *推荐搜索文字区域块*`item-text`
 
-            2.  *推荐搜索附加信息区域块*, 例如: `item-count`
+            2.  *推荐搜索附加信息区域块*, 例如: *商品数量显示*`item-count`或者*历史提交搜索记录删除按钮*`search-menu-history-delete`
 
-    3. *尾部区域块*`search-menu-footer`(默认显示)
+    3. *尾部区域块*`search-menu-footer`
+
+        1. *关闭按钮*`search-menu-close`
 
 ## 确定实现功能所需的所有逻辑(按人机交互事件划分)
 
@@ -360,7 +362,21 @@
 
              1.  执行`onSearch`  处理提交搜索表单操作
 
+3.  *关闭按钮*`search-menu-close`
 
+    1. `click`事件
+
+        1. `search-menu`的控制隐显
+
+4.  *历史提交搜索记录删除按钮*`search-menu-history-delete`
+
+    1.  'click'事件
+
+        1.  删除该项历史提交搜索记录
+
+        2.  处理操作后`search-menu-item`的UI变化
+
+        3.  将焦点返回`search-input`
 
 ## 确定数据存储
 
@@ -399,7 +415,9 @@
 
 4.  *尾部区域块是否显示标识*`isShowFooter`(Boolean) 默认true
 
-5.  [公开]*历史已提交搜索关键词缓存最大个数*`maximumHistorySearchedKeywordCacheList`(Int) 默认为10
+5.  [公开]*历史已提交搜索关键词缓存最大个数*`maximumHistorySearchedKeywordCacheList`(Int) 默认为100
+
+5.  [公开]*历史已提交搜索关键词显示个数*`displayHistorySearchedKeywordCacheListCount`(Int)默认为10
 
 6.  [公开]*历史未提交搜索关键词缓存最大个数*`maximumHistoryKeywordCacheList`(Int) 默认为100
 
@@ -457,7 +475,7 @@
 
 31. [公开]*请求远程数据, 返回结果对应dataList数组的key*`resultListKey`(String) 默认为'list'
 
-32. [公开]*推荐搜索层*`search-menu`*的footer部分匹配的选择器*`searchMenuFooterSelector`(String) 默认为'.search-menu-footer' 可自定义, 但需要同时自定义模板
+32. [公开]*推荐搜索层*`search-menu`*的关闭按钮匹配的选择器*`searchMenuCloseSelector`(String) 默认为'.search-menu-close' 可自定义, 但需要同时自定义模板
 
 33. [公开]*推荐搜索层*`search-menu`*的内容部分匹配的选择器*`searchMenuContentSelector`(String) 默认为'.search-menu-content'   可自定义, 但需要同时自定义模板
 
@@ -466,3 +484,6 @@
 35. [公开]*远程请求返回数据方式*`dataType`(String) 默认为'json' 也支持'jsonp'
 
 36. [公开]*search-menu-content的赋值数据源*`recommendKeywordDataList`*中对应显示推荐搜索词的字段的html内容*`suggestKeywordHtml`(String) 默认为'suggestKeywordHtml'  可自定义, 但需要同时自定义模板
+
+37. [公开]*推荐搜索层*`search-menu`*的历史已提交搜索记录的删除按钮匹配的选择器*`searchMenuHistoryDeleteSelector`(String) 默认为'.search-menu-history-delete' 可自定义, 但需要同时自定义模板
+

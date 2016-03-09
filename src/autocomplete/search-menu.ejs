@@ -1,6 +1,6 @@
 
 <%if(!searchMenuData.isReady) { %>
-<div id="<%=searchMenuData.id%>" class="search-menu" style="display: none;">
+<div id="<%=searchMenuData.id%>" class="search-menu" style="visibility: hidden;">
 <% } %>
 
     <%if(searchMenuData.isShowHeader) { %>
@@ -19,7 +19,7 @@
 
     <%if(searchMenuData.isShowFooter) { %>
         <div class="search-menu-footer">
-            关闭
+            <a class="search-menu-close">关闭</a>
         </div>
     <% } %>
 

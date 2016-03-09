@@ -31,7 +31,7 @@ var event = {
 
 			var $input = this._options.$searchInput;
 
-			$input.on('foucsin', $.proxy(handler.searchInput.onFoucsInHandler, this));
+			$input.on('focusin', $.proxy(handler.searchInput.onFoucsInHandler, this));
 		},
 
 		onFocusOut: function() {
@@ -43,9 +43,9 @@ var event = {
 
 		onKeyDown: function() {
 
-			var $document = $(document);
+			var $input = this._options.$searchInput;
 
-			$document.on('keydown', $.proxy(handler.searchInput.onKeyDownHandler, this));
+			$input.on('keydown', $.proxy(handler.searchInput.onKeyDownHandler, this));
 		}
 
 	},
@@ -74,7 +74,8 @@ var event = {
 
 			$searchMenu
 				.on('click', this._options.searchItemSelector, $.proxy(handler.searchMenu.onClickHandler, this))
-				.on('click', this._options.searchMenuFooterSelector, $.proxy(handler.searchMenu.onFooterClickHandler, this));
+				.on('click', this._options.searchMenuCloseSelector, $.proxy(handler.searchMenu.onMenuCloseClickHandler, this))
+				.on('click', this._options.searchMenuHistoryDeleteSelector, $.proxy(handler.searchMenu.onMenuHistoryDeleteClickHandler, this));
 
 
 		}

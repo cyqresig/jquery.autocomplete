@@ -39,7 +39,9 @@ var options = {
 
 	isShowFooter: true,
 
-	maximumHistorySearchedKeywordCacheList: 10,
+	maximumHistorySearchedKeywordCacheList: 100,
+
+	displayHistorySearchedKeywordCacheListCount: 10,
 
 	maximumHistoryKeywordCacheList: 100,
 
@@ -63,7 +65,9 @@ var options = {
 
 	searchMenuContentSelector: '.search-menu-content',
 
-	searchMenuFooterSelector: '.search-menu-footer',
+	searchMenuCloseSelector: '.search-menu-close',
+
+	searchMenuHistoryDeleteSelector: '.search-menu-history-delete',
 
 	searchItemSelectedSelector: '.selected'
 
@@ -76,9 +80,21 @@ function formatRecommendKeywordData(dataList, keyword) {
 
 	$.each(dataList, function(index, item) {
 
-		var pattern = '^(' + utils.escapeRegExChars(keyword) + ')(.*)$';
+		var pattern;
 
-		item[suggestKeywordHtml] = item[suggestKeyword].replace(new RegExp(pattern, 'gi'), '$1<b>$2<\/b>');
+		if(keyword != '') {
+
+			pattern = '^(' + utils.escapeRegExChars(keyword) + ')(.*)$';
+
+			item[suggestKeywordHtml] = item[suggestKeyword].replace(new RegExp(pattern, 'gi'), '$1<b>$2<\/b>');
+
+		}
+		else {
+
+			item[suggestKeywordHtml] = '<span class="search-menu-history-key">'+ item[suggestKeyword] +'</span><a class="search-menu-history-delete">删除</a>';
+
+		}
+
 
 	});
 
@@ -91,10 +107,11 @@ function onSearchMenuDisplayStateChange() {
 	//上来$searchMenu还不会生成, 直到匹配了一次搜索结果后
 	if(this._attrs.$searchMenu != null) {
 
-		action = this._attrs.displayState ? 'show' : 'hide';
+		//action = this._attrs.displayState ? 'show' : 'hide';
 
-		this._attrs.$searchMenu[action]();
+		action = this._attrs.displayState ? 'visible' : 'hidden';
 
+		this._attrs.$searchMenu.css('visibility', action);
 	}
 
 

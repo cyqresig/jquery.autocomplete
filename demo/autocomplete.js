@@ -8,14 +8,14 @@
 
 
 //仅在脱离服务端环境下做测试用
-require('./../mock/remote-data');
-var localData = require('./../mock/local-data');
+require('./../mock/autocomplete-remote-data');
+var localData = require('./../mock/autocomplete-local-data');
 
 
 
 
 
-require.ensure('./../src/autocomplete', function(require) {
+//require.ensure('./../src/autocomplete', function(require) {
 
 	var AutoComplete = require('./../src/autocomplete');
 
@@ -48,4 +48,4 @@ require.ensure('./../src/autocomplete', function(require) {
 
 	});
 
-});
+//});

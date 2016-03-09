@@ -78,30 +78,7 @@ var handler = {
 
 				if(this._attrs.recommendKeyword == '') {
 
-					if(this._attrs.historySearchedKeywordCacheList.length > 0) {
-
-						wrapHistorySearchedKeywordCacheList = service.getWrapHistorySearchedKeywordCacheList.call(this, this._attrs.historySearchedKeywordCacheList);
-
-						service.setSearchMenuData.call(this, wrapHistorySearchedKeywordCacheList);
-
-						service.generateTemplate.call(this);
-
-						if(!this._attrs.displayState) {
-
-							service.toogleSearchMenu.call(this);
-
-						}
-
-					}
-					else {
-
-						if(this._attrs.displayState) {
-
-							service.toogleSearchMenu.call(this);
-
-						}
-
-					}
+					service.processSearchHistory.call(this);
 
 				}
 				else {
@@ -237,6 +214,8 @@ var handler = {
 
 			this._attrs.focusState = true;
 
+			this._attrs.searchItemIndex = 0;
+
 		},
 
 		onFocusOutHandler: function() {
@@ -246,6 +225,8 @@ var handler = {
 				this._attrs.focusState = false;
 
 				if(this._attrs.displayState) {
+
+					console.debug('onFocusOutHandler' + Date.now());
 
 					service.toogleSearchMenu.call(this);
 
@@ -332,7 +313,7 @@ var handler = {
 
 		onMouseLeaveHandler: function() {
 
-			this._attrs.searchItemIndex = 0;
+			//this._attrs.searchItemIndex = 0;
 
 			this._options.onSelect.call(this, 'mouseleave');
 
@@ -364,9 +345,25 @@ var handler = {
 
 		},
 
-		onFooterClickHandler: function() {
+		onMenuCloseClickHandler: function() {
 
 			service.toogleSearchMenu.call(this);
+
+		},
+
+		onMenuHistoryDeleteClickHandler: function(e) {
+
+			var $searchHistoryItem = $(e.currentTarget),
+
+				searchHistoryItemIndex = $searchHistoryItem.parents(this._options.searchItemSelector).index();
+
+			e.stopPropagation();
+
+			this._attrs.historySearchedKeywordCacheList.splice(searchHistoryItemIndex, 1);
+
+			service.processSearchHistory.call(this);
+
+			this._options.$searchInput.focus();
 
 		}
 

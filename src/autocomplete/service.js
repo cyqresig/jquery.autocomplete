@@ -126,6 +126,12 @@ var service = {
 
 			wrapList.push(wrapObj);
 
+			if(index == that._options.displayHistorySearchedKeywordCacheListCount - 1) {
+
+				return false;
+
+			}
+
 		});
 
 		return wrapList;
@@ -181,13 +187,20 @@ var service = {
 
 	setHistorySearchedKeywordCacheList: function() {
 
-		this._attrs.historySearchedKeywordCacheList.unshift(this._attrs.recommendKeyword);
+		if(this._attrs.historySearchedKeywordCacheList.length == this._options.maximumHistorySearchedKeywordCacheList) {
 
-		if(this._attrs.historySearchedKeywordCacheList.length > this._options.maximumHistorySearchedKeywordCacheList) {
-
-			this._attrs.historySearchedKeywordCacheList.length = this._options.maximumHistorySearchedKeywordCacheList;
+			service.popHistorySearchedKeywordCacheList.call(this);
 
 		}
+
+		this._attrs.historySearchedKeywordCacheList.unshift(this._attrs.recommendKeyword);
+
+	},
+
+	popHistorySearchedKeywordCacheList: function() {
+
+		this._attrs.historySearchedKeywordCacheList.pop();
+
 	},
 
 	generateTemplate: function() {
@@ -212,6 +225,37 @@ var service = {
 			service.generateTemplate.call(this);
 
 			if(!this._attrs.displayState) {
+
+				service.toogleSearchMenu.call(this);
+
+			}
+
+		}
+
+	},
+
+	processSearchHistory: function() {
+
+		var wrapHistorySearchedKeywordCacheList;
+
+		if(this._attrs.historySearchedKeywordCacheList.length > 0) {
+
+			wrapHistorySearchedKeywordCacheList = service.getWrapHistorySearchedKeywordCacheList.call(this, this._attrs.historySearchedKeywordCacheList);
+
+			service.setSearchMenuData.call(this, wrapHistorySearchedKeywordCacheList);
+
+			service.generateTemplate.call(this);
+
+			if(!this._attrs.displayState) {
+
+				service.toogleSearchMenu.call(this);
+
+			}
+
+		}
+		else {
+
+			if(this._attrs.displayState) {
 
 				service.toogleSearchMenu.call(this);
 
