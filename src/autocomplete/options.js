@@ -132,10 +132,13 @@ function onSelect(mouseEventType) {
 
 	this._attrs.$searchMenu.find(this._options.searchItemSelector + this._options.searchItemSelectedSelector).removeClass(selectedCssClass);
 
+	this._attrs.watchValueChange = false;
 
 	if(this._attrs.searchItemIndex == this._attrs.recommendItemsCount || this._attrs.searchItemIndex == -1) {
 
-		this._options.$searchInput.val(this._attrs.recommendKeyword);
+		//console.debug('this._attrs.recommendKeyword ' + this._attrs.recommendKeyword);
+
+		this._options.$searchInput.val(this._attrs.tempRecommendKeyword);
 
 	}
 	else {
@@ -160,6 +163,8 @@ function onSelect(mouseEventType) {
 		}
 
 	}
+
+	this._attrs.watchValueChange = true;
 
 }
 

@@ -5,27 +5,40 @@
  * Created on 16/3/7.
  */
 
+require('es5-shim')
+require('es5-shim/es5-sham')
 
 //仅在脱离服务端环境下做测试用
-require('./../mock/autocomplete-remote-data');
-var localData = require('./../mock/autocomplete-local-data');
 
+$.mockjaxSettings.contentType = "application/json";
+$.mockjax({
+	url: '/sug',
+	data: {
 
-
-
+	},
+	responseText: {
+		list: [{
+			'keyword': '淘宝宝1'
+		},{
+			'keyword': '淘宝宝11'
+		},{
+			'keyword': '淘宝宝111'
+		}]
+	}
+});
 
 //require.ensure('./../src/autocomplete', function(require) {
 
 	var AutoComplete = require('./../src/autocomplete');
 
-	//local
-	var instance_1 = new AutoComplete({
-
-		localData: localData,
-
-		$searchInput: $('#s1')
-
-	});
+	////local
+	//var instance_1 = new AutoComplete({
+	//
+	//	localData: localData,
+	//
+	//	$searchInput: $('#s1')
+	//
+	//});
 
 
 	//remote

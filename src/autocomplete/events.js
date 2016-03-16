@@ -16,7 +16,17 @@ var event = {
 
 			var $input = this._options.$searchInput;
 
-			$input.on('input', $.proxy(handler.searchInput.onInputHandler, this));
+			if('oninput' in $input[0]) {
+
+				$input.on('input', $.proxy(handler.searchInput.onInputHandler, this));
+
+			}
+			else {
+
+				$input.on('propertychange', $.proxy(handler.searchInput.onPropertyChangeHandler, this));
+
+			}
+
 		},
 
 		onClick: function() {

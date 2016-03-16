@@ -8,6 +8,8 @@
 
 var attrs = {
 
+	watchValueChange: true,   //for ie8 onpropertychange
+
 	searchMenuData: {
 
 		//isShowHeader: false,  //UI层变化交由使用者自行控制
@@ -30,6 +32,8 @@ var attrs = {
 	searchInputValue: undefined,
 
 	recommendKeyword: undefined,
+
+	tempRecommendKeyword: undefined,  //按键上下切换搜索词时使用
 
 	xhr: null,
 

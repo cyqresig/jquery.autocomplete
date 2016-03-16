@@ -14,6 +14,9 @@ module.exports =
     entry: {
         autocomplete: [
             "./demo/autocomplete",
+        ],
+        'autocomplete-ie8': [
+            "./demo/autocomplete-ie8",
         ]
     },
     output: {
@@ -37,6 +40,17 @@ module.exports =
         //    //chunks: entry,
         //    //minChunks: entry.length
         //}),
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+          compressor: {
+            warnings: false
+          }
+        })
     ],
     module: {
         loaders: [

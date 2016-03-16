@@ -14,161 +14,25 @@ var handler = {
 
 		onInputHandler: function() {
 
-			var that, queryData, recommendKeywordDataList, wrapHistorySearchedKeywordCacheList;
+			onInputHandle.call(this);
 
-			this._attrs.recommendKeyword = this._options.$searchInput.val().trim();
+		},
 
-			if(!this._options.remote) {
+		onPropertyChangeHandler: function(e) {
 
-				if(this._attrs.recommendKeyword == '') {
+			if(e.originalEvent.propertyName != 'value') {
 
-					if(this._attrs.displayState) {
-
-						service.toogleSearchMenu.call(this);
-
-					}
-
-				}
-				else {
-
-					if(this._attrs.recommendKeyword in this._options.localData) {
-
-						if(!$.isArray(this._options.localData[this._attrs.recommendKeyword])) {
-
-							throw new Error('localData每一项应是一个json格式的数组');
-
-						}
-
-						service.setSearchMenuData.call(this, this._options.localData[this._attrs.recommendKeyword]);
-
-						service.generateTemplate.call(this);
-
-						if(!this._attrs.displayState) {
-
-							service.toogleSearchMenu.call(this);
-
-						}
-
-					}
-					else {
-
-						if(this._attrs.displayState) {
-
-							service.toogleSearchMenu.call(this);
-
-						}
-
-					}
-
-				}
+				return;
 
 			}
-			else {
 
-				if(this._attrs.defered != null) {
+			if(!this._attrs.watchValueChange) {
 
-					service.destoryDefered(this._attrs.defered);
-
-				}
-				if(this._attrs.xhr != null) {
-
-					service.abortXhr(this._attrs.xhr);
-
-				}
-
-				if(this._attrs.recommendKeyword == '') {
-
-					service.processSearchHistory.call(this);
-
-				}
-				else {
-
-					if(this._attrs.recommendKeyword in this._attrs.historyRecommendKeywordCache) {
-
-
-						recommendKeywordDataList = JSON.parse(this._attrs.historyRecommendKeywordCache[this._attrs.recommendKeyword]);
-
-						if(recommendKeywordDataList.length > 0) {
-
-							service.setSearchMenuData.call(this, recommendKeywordDataList);
-
-							service.generateTemplate.call(this);
-
-							if (!this._attrs.displayState) {
-
-								service.toogleSearchMenu.call(this);
-
-							}
-
-						}
-
-					}
-					else {
-
-						//if(this._attrs.displayState) {
-						//
-						//	service.toogleSearchMenu.call(this);
-						//
-						//}
-
-						that = this;
-
-						queryData = {};
-
-						queryData[that._options.queryName] = encodeURIComponent(that._attrs.recommendKeyword);
-
-						if($.isPlainObject(this._options.additionalQueryParams)) {
-
-							$.extend(true, queryData, this._options.additionalQueryParams);
-						}
-
-						that._attrs.defered = setTimeout(function() {
-
-							that.xhr = $.ajax({
-
-								url: that._options.url,
-
-								type: 'get',
-
-								data: queryData,
-
-								dataType: that._options.dataType,
-
-								timeout: that._options.timeout,
-
-								success: function(result) {
-
-									var dataList = result[that._options.resultListKey];
-
-									service.processResponse.call(that, dataList);
-
-								},
-
-								error: function(xhr, textStatus, errorThrown) {
-
-									//throw new Error('jsonp请求失败');
-									util.debug(xhr);
-
-								},
-
-								complete: function() {
-
-									service.destoryXhr(that.xhr);
-								}
-
-							});
-
-
-						}, this._options.recommendFetchInterval);
-
-
-					}
-
-				}
-
-
+				return;
 
 			}
+
+			onInputHandle.call(this);
 
 		},
 
@@ -189,9 +53,18 @@ var handler = {
 
 					recommendKeywordDataList = JSON.parse(this._attrs.historyRecommendKeywordCache[this._attrs.recommendKeyword]);
 
-				}
+					service.setSearchMenuData.call(this, recommendKeywordDataList);
 
-				service.setSearchMenuData.call(this, recommendKeywordDataList);
+				}
+				else {
+
+					recommendKeywordDataList = [];
+
+					service.setSearchMenuData.call(this, recommendKeywordDataList);
+
+					onInputHandle.call(this);
+
+				}
 
 			}
 
@@ -214,7 +87,7 @@ var handler = {
 
 			this._attrs.focusState = true;
 
-			this._attrs.searchItemIndex = 0;
+			this._attrs.searchItemIndex = -1;
 
 		},
 
@@ -226,7 +99,7 @@ var handler = {
 
 				if(this._attrs.displayState) {
 
-					console.debug('onFocusOutHandler' + Date.now());
+					//console.debug('onFocusOutHandler' + Date.now());
 
 					service.toogleSearchMenu.call(this);
 
@@ -370,6 +243,170 @@ var handler = {
 	}
 
 };
+
+function onInputHandle() {
+
+	//console.debug('oninputhandle = ' + this._options.$searchInput.val().trim())
+
+	var that, queryData, recommendKeywordDataList, wrapHistorySearchedKeywordCacheList;
+
+	this._attrs.recommendKeyword = this._options.$searchInput.val().trim();
+
+	this._attrs.tempRecommendKeyword = this._attrs.recommendKeyword;
+
+	if(!this._options.remote) {
+
+		if(this._attrs.recommendKeyword == '') {
+
+			if(this._attrs.displayState) {
+
+				service.toogleSearchMenu.call(this);
+
+			}
+
+		}
+		else {
+
+			if(this._attrs.recommendKeyword in this._options.localData) {
+
+				if(!$.isArray(this._options.localData[this._attrs.recommendKeyword])) {
+
+					throw new Error('localData每一项应是一个json格式的数组');
+
+				}
+
+				service.setSearchMenuData.call(this, this._options.localData[this._attrs.recommendKeyword]);
+
+				service.generateTemplate.call(this);
+
+				if(!this._attrs.displayState) {
+
+					service.toogleSearchMenu.call(this);
+
+				}
+
+			}
+			else {
+
+				if(this._attrs.displayState) {
+
+					service.toogleSearchMenu.call(this);
+
+				}
+
+			}
+
+		}
+
+	}
+	else {
+
+		if(this._attrs.defered != null) {
+
+			service.destoryDefered(this._attrs.defered);
+
+		}
+		if(this._attrs.xhr != null) {
+
+			service.abortXhr(this._attrs.xhr);
+
+		}
+
+		if(this._attrs.recommendKeyword == '') {
+
+			service.processSearchHistory.call(this);
+
+		}
+		else {
+
+			if(this._attrs.recommendKeyword in this._attrs.historyRecommendKeywordCache) {
+
+
+				recommendKeywordDataList = JSON.parse(this._attrs.historyRecommendKeywordCache[this._attrs.recommendKeyword]);
+
+				if(recommendKeywordDataList.length > 0) {
+
+					service.setSearchMenuData.call(this, recommendKeywordDataList);
+
+					service.generateTemplate.call(this);
+
+					if (!this._attrs.displayState) {
+
+						service.toogleSearchMenu.call(this);
+
+					}
+
+				}
+
+			}
+			else {
+
+				//if(this._attrs.displayState) {
+				//
+				//	service.toogleSearchMenu.call(this);
+				//
+				//}
+
+				that = this;
+
+				queryData = {};
+
+				queryData[that._options.queryName] = encodeURIComponent(that._attrs.recommendKeyword);
+
+				if($.isPlainObject(this._options.additionalQueryParams)) {
+
+					$.extend(true, queryData, this._options.additionalQueryParams);
+				}
+
+				that._attrs.defered = setTimeout(function() {
+
+					that.xhr = $.ajax({
+
+						url: that._options.url,
+
+						type: 'get',
+
+						data: queryData,
+
+						dataType: that._options.dataType,
+
+						timeout: that._options.timeout,
+
+						success: function(result) {
+
+							var dataList = result[that._options.resultListKey];
+
+							service.processResponse.call(that, dataList);
+
+						},
+
+						error: function(xhr, textStatus, errorThrown) {
+
+							//throw new Error('jsonp请求失败');
+							util.debug(xhr);
+
+						},
+
+						complete: function() {
+
+							service.destoryXhr(that.xhr);
+						}
+
+					});
+
+
+				}, this._options.recommendFetchInterval);
+
+
+			}
+
+		}
+
+
+
+	}
+
+}
 
 
 module.exports = handler;
