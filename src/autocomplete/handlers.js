@@ -385,6 +385,10 @@ function onInputHandle() {
 							//throw new Error('jsonp请求失败');
 							util.debug(xhr);
 
+							var dataList = [];
+
+							service.processResponse.call(that, dataList);
+
 						},
 
 						complete: function() {
