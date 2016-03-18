@@ -12,17 +12,47 @@ require('es5-shim/es5-sham')
 
 $.mockjaxSettings.contentType = "application/json";
 $.mockjax({
-	url: '/sug',
+	url: '/sug?searchKey=%E6%B7%98',
 	data: {
 
 	},
 	responseText: {
 		list: [{
-			'keyword': '淘宝宝1'
+			'keyword': '淘' + Math.random()
 		},{
-			'keyword': '淘宝宝11'
+			'keyword': '淘' + Math.random()
 		},{
-			'keyword': '淘宝宝111'
+			'keyword': '淘' +  + Math.random()
+		}]
+	}
+});
+$.mockjax({
+	url: '/sug?searchKey=%E6%B7%98%E5%AE%9D',
+	data: {
+
+	},
+	responseText: {
+		list: [{
+			'keyword': '淘宝' + Math.random()
+		},{
+			'keyword': '淘宝' + Math.random()
+		},{
+			'keyword': '淘宝' + Math.random()
+		}]
+	}
+});
+$.mockjax({
+	url: '/sug?searchKey=%E6%B7%98%E5%AE%9D%E5%AE%9D',
+	data: {
+
+	},
+	responseText: {
+		list: [{
+			'keyword': '淘宝宝' + Math.random()
+		},{
+			'keyword': '淘宝宝' + Math.random()
+		},{
+			'keyword': '淘宝宝' + Math.random()
 		}]
 	}
 });
