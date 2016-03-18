@@ -351,7 +351,7 @@ function onInputHandle() {
 
 				queryData = {};
 
-				queryData[that._options.queryName] = encodeURIComponent(that._attrs.recommendKeyword);
+				queryData[that._options.queryName] = that._attrs.recommendKeyword;  //encodeURIComponent(that._attrs.recommendKeyword);
 
 				if($.isPlainObject(this._options.additionalQueryParams)) {
 

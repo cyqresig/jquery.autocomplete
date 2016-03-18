@@ -9,9 +9,11 @@
 ;'use strict';
 
 require('./autocomplete.less');
+var template = require('./search-menu.ejs');
 var attrs = require('./attrs');
 var defaults = require('./options');
 var events = require('./events');
+var service = require('./service');
 
 
 function AutoComplete(options) {
@@ -32,8 +34,19 @@ function AutoComplete(options) {
 
 	//check options, if error, throw custom Error
 	//@todo
+	that._options.formatRecommendKeywordData = that._options.formatRecommendKeywordData ? that._options.formatRecommendKeywordData : service.formatRecommendKeywordData;
 
-	//return this;
+	that._options.onSearchMenuDisplayStateChange = that._options.onSearchMenuDisplayStateChange ? that._options.onSearchMenuDisplayStateChange : service.onSearchMenuDisplayStateChange;
+
+	that._options.onSetSearchMenuData = that._options.onSetSearchMenuData ? that._options.onSetSearchMenuData : service.onSetSearchMenuData;
+
+	that._options.onSelect = that._options.onSelect ? that._options.onSelect : service.onSelect;
+
+	that._options.onTemplate = that._options.onTemplate ? that._options.onTemplate : service.onTemplate;
+
+	that._options.template = that._options.template ? that._options.template : template;
+
+	//return that;
 }
 
 //AutoComplete.prototype = {
