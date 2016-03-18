@@ -236,6 +236,15 @@ var service = {
 			}
 
 		}
+		else {
+
+			if(this._attrs.displayState) {
+
+				service.toogleSearchMenu.call(this);
+
+			}
+
+		}
 
 	},
 
