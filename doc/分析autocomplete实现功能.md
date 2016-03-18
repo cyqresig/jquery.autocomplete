@@ -483,7 +483,7 @@
 
 35. [公开]*远程请求返回数据方式*`dataType`(String) 默认为'json' 也支持'jsonp'
 
-36. [公开]*search-menu-content的赋值数据源*`recommendKeywordDataList`*中对应显示推荐搜索词的字段的html内容*`suggestKeywordHtml`(String) 默认为'suggestKeywordHtml'  可自定义, 但需要同时自定义模板
+36. [公开]*search-menu-content的赋值数据源*`recommendKeywordDataList`*中对应显示推荐搜索词的字段的html内容*`suggestKeywordHtml`(String) 默认为'keywordHtml'  可自定义, 但需要同时自定义模板
 
 37. [公开]*推荐搜索层*`search-menu`*的历史已提交搜索记录的删除按钮匹配的选择器*`searchMenuHistoryDeleteSelector`(String) 默认为'.search-menu-history-delete' 可自定义, 但需要同时自定义模板
 
