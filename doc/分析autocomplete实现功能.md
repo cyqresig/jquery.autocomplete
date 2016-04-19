@@ -421,7 +421,7 @@
 
 6.  [公开]*历史未提交搜索关键词缓存最大个数*`maximumHistoryKeywordCacheList`(Int) 默认为100
 
-7.  [公开]*是否使用远程数据*`remote`(Boolean) 默认false (请求方式强制使用jsonp)
+7.  [公开]*是否使用远程数据*`remote`(Boolean) 默认false (请求方式使用json)
 
 8.  [公开]*远程请求地址*`url`(String) 默认未定义 (当`remote`为true时必须指定)
 

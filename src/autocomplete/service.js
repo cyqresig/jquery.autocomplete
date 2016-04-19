@@ -5,7 +5,7 @@
  * Created on 16/3/5.
  */
 var utils = require('./utils');
-var events = require('./events');
+//var events = require('./events');
 
 var service = {
 
@@ -404,7 +404,7 @@ var service = {
 
 		if(!that._attrs.searchMenuData.isReady) {
 
-			$.each(events.searchMenu, function(eventType, bindEvent) {
+			$.each(that._attrs.events.searchMenu, function(eventType, bindEvent) {
 
 				bindEvent.call(that);
 

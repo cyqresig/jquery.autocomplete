@@ -30,6 +30,8 @@ function AutoComplete(options) {
 
 	});
 
+	that._attrs.events = events;  //临时传值
+
 	that._options.$searchInput.attr('autocomplete', 'off');
 
 	//check options, if error, throw custom Error

@@ -1,0 +1,7 @@
+--globals jQuery
+--require chai
+--harmony
+--reporter mochawesome
+--bail
+--recursive
+--timeout 15000
