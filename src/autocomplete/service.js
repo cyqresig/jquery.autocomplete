@@ -196,7 +196,11 @@ var service = {
 
 			}
 
-			this._attrs.historySearchedKeywordCacheList.unshift(this._attrs.recommendKeyword);
+			if(!~$.inArray(this._attrs.recommendKeyword, this._attrs.historySearchedKeywordCacheList)) {
+
+				this._attrs.historySearchedKeywordCacheList.unshift(this._attrs.recommendKeyword);
+
+			}
 
 		}
 
