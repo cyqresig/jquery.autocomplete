@@ -23,11 +23,13 @@ var attrs = {
 
 	recommendKeywordDataList: [],
 
-	historySearchedKeywordCacheList: [],
+	//historySearchedKeywordCacheList: [],  //修改成支持不同类型的存储, 例如 this._attrs.searchTypeCache['type1'].historySearchedKeywordCacheList
+	//
+	//historyRecommendKeywordCacheList: [],  //修改成支持不同类型的存储
+	//
+	//historyRecommendKeywordCache: {},      //修改成支持不同类型的存储
 
-	historyRecommendKeywordCacheList: [],
-
-	historyRecommendKeywordCache: {},
+	searchTypeCache: {},
 
 	searchInputValue: undefined,
 

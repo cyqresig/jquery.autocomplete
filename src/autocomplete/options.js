@@ -29,6 +29,10 @@ var options = {
 
 	queryName: 'searchKey',
 
+	searchTypeList: ['type1'], //查询类型范围
+
+	currentSearchType: 'type1', //默认查询类型值, 可以使用function赋动态值
+
 	additionalQueryParams: null,
 
 	localData: null,

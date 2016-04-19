@@ -30,6 +30,19 @@ function AutoComplete(options) {
 
 	});
 
+	$.each(that._options.searchTypeList, function(index, searchType) {
+
+		that._attrs.searchTypeCache[searchType] = {
+
+			historySearchedKeywordCacheList: [],
+
+			historyRecommendKeywordCacheList: [],
+
+			historyRecommendKeywordCache: {}
+
+		}
+	});
+
 	that._attrs.events = events;  //临时传值
 
 	that._options.$searchInput.attr('autocomplete', 'off');
@@ -51,8 +64,10 @@ function AutoComplete(options) {
 	//return that;
 }
 
-//AutoComplete.prototype = {
-//
-//};
+AutoComplete.prototype = {
+
+	resetSearchMenuOffset: service.resetSearchMenuOffset
+
+};
 
 module.exports = AutoComplete;

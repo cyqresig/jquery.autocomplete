@@ -40,18 +40,21 @@ var handler = {
 
 			var recommendKeywordDataList, wrapHistorySearchedKeywordCacheList;
 
+			//modified
+			var currentSearchType = $.isFunction(this._options.currentSearchType) ? this._options.currentSearchType() : this._options.currentSearchType;
+
 			if(!this._attrs.recommendKeyword) {
 
-				wrapHistorySearchedKeywordCacheList = service.getWrapHistorySearchedKeywordCacheList.call(this, this._attrs.historySearchedKeywordCacheList);
+				wrapHistorySearchedKeywordCacheList = service.getWrapHistorySearchedKeywordCacheList.call(this, this._attrs.searchTypeCache[currentSearchType].historySearchedKeywordCacheList);
 
 				service.setSearchMenuData.call(this, wrapHistorySearchedKeywordCacheList);
 
 			}
 			else {
 
-				if(this._attrs.recommendKeyword in this._attrs.historyRecommendKeywordCache) {
+				if(this._attrs.recommendKeyword in this._attrs.searchTypeCache[currentSearchType].historyRecommendKeywordCache) {
 
-					recommendKeywordDataList = JSON.parse(this._attrs.historyRecommendKeywordCache[this._attrs.recommendKeyword]);
+					recommendKeywordDataList = JSON.parse(this._attrs.searchTypeCache[currentSearchType].historyRecommendKeywordCache[this._attrs.recommendKeyword]);
 
 					service.setSearchMenuData.call(this, recommendKeywordDataList);
 
@@ -230,9 +233,12 @@ var handler = {
 
 				searchHistoryItemIndex = $searchHistoryItem.parents(this._options.searchItemSelector).index();
 
+			//modified
+			var currentSearchType = $.isFunction(this._options.currentSearchType) ? this._options.currentSearchType() : this._options.currentSearchType;
+
 			e.stopPropagation();
 
-			this._attrs.historySearchedKeywordCacheList.splice(searchHistoryItemIndex, 1);
+			this._attrs.searchTypeCache[currentSearchType].historySearchedKeywordCacheList.splice(searchHistoryItemIndex, 1);
 
 			service.processSearchHistory.call(this);
 
@@ -253,6 +259,9 @@ function onInputHandle() {
 	this._attrs.recommendKeyword = this._options.$searchInput.val().trim();
 
 	this._attrs.tempRecommendKeyword = this._attrs.recommendKeyword;
+
+	//modified
+	var currentSearchType = $.isFunction(this._options.currentSearchType) ? this._options.currentSearchType() : this._options.currentSearchType;
 
 	if(!this._options.remote) {
 
@@ -319,10 +328,10 @@ function onInputHandle() {
 		}
 		else {
 
-			if(this._attrs.recommendKeyword in this._attrs.historyRecommendKeywordCache) {
+			if(this._attrs.recommendKeyword in this._attrs.searchTypeCache[currentSearchType].historyRecommendKeywordCache) {
 
 
-				recommendKeywordDataList = JSON.parse(this._attrs.historyRecommendKeywordCache[this._attrs.recommendKeyword]);
+				recommendKeywordDataList = JSON.parse(this._attrs.searchTypeCache[currentSearchType].historyRecommendKeywordCache[this._attrs.recommendKeyword]);
 
 				if(recommendKeywordDataList.length > 0) {
 

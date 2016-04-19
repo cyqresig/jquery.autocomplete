@@ -139,28 +139,32 @@ var service = {
 	},
 
 	setHistoryRecommendKeywordCache: function(recommendKeywordDataList, recommendKeyword) {
+		//modified
+		var currentSearchType = $.isFunction(this._options.currentSearchType) ? this._options.currentSearchType() : this._options.currentSearchType;
 
-		if(!(recommendKeyword in this._attrs.historyRecommendKeywordCache)) {
+		if(!(recommendKeyword in this._attrs.searchTypeCache[currentSearchType].historyRecommendKeywordCache)) {
 
-			if(this._attrs.historyRecommendKeywordCacheList.length == this._options.maximumHistoryKeywordCacheList) {
+			if(this._attrs.searchTypeCache[currentSearchType].historyRecommendKeywordCacheList.length == this._options.maximumHistoryKeywordCacheList) {
 
 				service.shiftHistoryRecommendKeywordCache.call(this);
 
 			}
 
-			this._attrs.historyRecommendKeywordCacheList.push(recommendKeyword);
+			this._attrs.searchTypeCache[currentSearchType].historyRecommendKeywordCacheList.push(recommendKeyword);
 
-			this._attrs.historyRecommendKeywordCache[recommendKeyword] = JSON.stringify(recommendKeywordDataList);
+			this._attrs.searchTypeCache[currentSearchType].historyRecommendKeywordCache[recommendKeyword] = JSON.stringify(recommendKeywordDataList);
 
 		}
 
 	},
 
 	shiftHistoryRecommendKeywordCache: function() {
+		//modified
+		var currentSearchType = $.isFunction(this._options.currentSearchType) ? this._options.currentSearchType() : this._options.currentSearchType;
 
-		var recommendKeyword = this._attrs.historyRecommendKeywordCacheList.shift();
+		var recommendKeyword = this._attrs.searchTypeCache[currentSearchType].historyRecommendKeywordCacheList.shift();
 
-		delete this._attrs.historyRecommendKeywordCache[recommendKeyword];
+		delete this._attrs.searchTypeCache[currentSearchType].historyRecommendKeywordCache[recommendKeyword];
 
 	},
 
@@ -187,18 +191,20 @@ var service = {
 	},
 
 	setHistorySearchedKeywordCacheList: function() {
+		//modified
+		var currentSearchType = $.isFunction(this._options.currentSearchType) ? this._options.currentSearchType() : this._options.currentSearchType;
 
 		if(this._attrs.recommendKeyword != '') {
 
-			if(this._attrs.historySearchedKeywordCacheList.length == this._options.maximumHistorySearchedKeywordCacheList) {
+			if(this._attrs.searchTypeCache[currentSearchType].historySearchedKeywordCacheList.length == this._options.maximumHistorySearchedKeywordCacheList) {
 
 				service.popHistorySearchedKeywordCacheList.call(this);
 
 			}
 
-			if(!~$.inArray(this._attrs.recommendKeyword, this._attrs.historySearchedKeywordCacheList)) {
+			if(!~$.inArray(this._attrs.recommendKeyword, this._attrs.searchTypeCache[currentSearchType].historySearchedKeywordCacheList)) {
 
-				this._attrs.historySearchedKeywordCacheList.unshift(this._attrs.recommendKeyword);
+				this._attrs.searchTypeCache[currentSearchType].historySearchedKeywordCacheList.unshift(this._attrs.recommendKeyword);
 
 			}
 
@@ -207,8 +213,10 @@ var service = {
 	},
 
 	popHistorySearchedKeywordCacheList: function() {
+		//modified
+		var currentSearchType = $.isFunction(this._options.currentSearchType) ? this._options.currentSearchType() : this._options.currentSearchType;
 
-		this._attrs.historySearchedKeywordCacheList.pop();
+		this._attrs.searchTypeCache[currentSearchType].historySearchedKeywordCacheList.pop();
 
 	},
 
@@ -256,9 +264,12 @@ var service = {
 
 		var wrapHistorySearchedKeywordCacheList;
 
-		if(this._attrs.historySearchedKeywordCacheList.length > 0) {
+		//modified
+		var currentSearchType = $.isFunction(this._options.currentSearchType) ? this._options.currentSearchType() : this._options.currentSearchType;
 
-			wrapHistorySearchedKeywordCacheList = service.getWrapHistorySearchedKeywordCacheList.call(this, this._attrs.historySearchedKeywordCacheList);
+		if(this._attrs.searchTypeCache[currentSearchType].historySearchedKeywordCacheList.length > 0) {
+
+			wrapHistorySearchedKeywordCacheList = service.getWrapHistorySearchedKeywordCacheList.call(this, this._attrs.searchTypeCache[currentSearchType].historySearchedKeywordCacheList);
 
 			service.setSearchMenuData.call(this, wrapHistorySearchedKeywordCacheList);
 
@@ -379,7 +390,7 @@ var service = {
 
 	 onTemplate: function(templateHtml) {
 
-		var $body, that = this, offset;
+		var $body, that = this;
 
 		if(that._attrs.$searchMenu == null) {
 
@@ -396,17 +407,20 @@ var service = {
 
 		}
 
-		offset = that._options.$searchInput.offset();
+		//offset = that._options.$searchInput.offset();
 
-		that._attrs.$searchMenu.css({
+		//that._attrs.$searchMenu.css({
+		//
+		//	left: offset.left,
+		//
+		//	top: offset.top + that._options.$searchInput.outerHeight(),
+		//
+		//});
 
-			left: offset.left,
-
-			top: offset.top + that._options.$searchInput.outerHeight(),
-
-		});
 
 		if(!that._attrs.searchMenuData.isReady) {
+
+			that.resetSearchMenuOffset();
 
 			$.each(that._attrs.events.searchMenu, function(eventType, bindEvent) {
 
@@ -417,6 +431,27 @@ var service = {
 			that._attrs.searchMenuData.isReady = true;
 
 		}
+
+	},
+
+	resetSearchMenuOffset: function() {
+		var offset;
+
+		//上来$searchMenu还不会生成, 直到匹配了一次搜索结果后
+		if(this._attrs.$searchMenu != null) {
+
+			offset = this._options.$searchInput.offset();
+
+			this._attrs.$searchMenu.css({
+
+				left: offset.left,
+
+				top: offset.top + this._options.$searchInput.outerHeight()
+
+			});
+
+		}
+
 
 	}
 

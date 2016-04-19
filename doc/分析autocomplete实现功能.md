@@ -427,6 +427,10 @@
 
 9.  [公开]*对应搜索文本的请求参数名*`queryName`(String) 默认为'searchKey'
 
+9.  [公开]*查询类型范围*`searchTypeList`(Array) 默认为'["type1"]', 为一个搜索框对应多种查询使用
+
+9.  [公开]*当前的查询类型名称*`currentSearchType`(String/Function) 默认为'type1', 为一个搜索框应对应多种查询类型使用
+
 10. [公开]*附加请求参数对象*`additionalQueryParams`(Object) 默认null (需要支持实例修改)
 
 11. [公开]*本地数据源*`localData`(Object) 默认null (当`remote`为false时必须指定)
